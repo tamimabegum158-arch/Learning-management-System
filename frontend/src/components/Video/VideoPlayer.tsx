@@ -12,13 +12,17 @@ interface VideoPlayerProps {
 /**
  * Embeds YouTube video so it plays inside the LMS portal (not on YouTube).
  * Uses the standard embed URL so the video loads and plays reliably in-page.
+ * onProgress and onCompleted are accepted for API compatibility; callers can use
+ * the "Mark as complete" button until YouTube IFrame API progress is added.
  */
 export function VideoPlayer({
   videoId,
   startPositionSeconds,
-  onProgress,
-  onCompleted,
+  onProgress: _onProgress,
+  onCompleted: _onCompleted,
 }: VideoPlayerProps) {
+  void _onProgress;
+  void _onCompleted;
   const embedUrl = useMemo(() => {
     const raw = String(videoId || "").trim();
     if (!raw) return "";
