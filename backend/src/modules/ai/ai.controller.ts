@@ -38,11 +38,11 @@ export async function ask(req: Request, res: Response) {
   if (videoDescription) contextParts.push(`Lesson description: ${videoDescription}`);
 
   const systemPrompt = getSystemPrompt(contextParts);
-  let geminiKey = (process.env.GEMINI_API_KEY ?? env.GEMINI_API_KEY)?.trim();
+  let geminiKey: string | undefined = (process.env.GEMINI_API_KEY ?? env.GEMINI_API_KEY)?.trim();
   // If still missing, load .env from backend folder (works even when cwd is project root)
   if (!geminiKey && existsSync(backendEnvPath)) {
     dotenv.config({ path: backendEnvPath });
-    geminiKey = process.env.GEMINI_API_KEY?.trim();
+    geminiKey = process.env.GEMINI_API_KEY?.trim() ?? undefined;
   }
 
   if (!geminiKey) {
@@ -54,9 +54,11 @@ export async function ask(req: Request, res: Response) {
     return;
   }
 
+  const apiKey: string = geminiKey;
+
   try {
     const fullPrompt = `${systemPrompt}\n\nStudent question: ${question}`;
-    const res = await fetch(`${GEMINI_URL}?key=${encodeURIComponent(geminiKey)}`, {
+    const fetchRes = await fetch(`${GEMINI_URL}?key=${encodeURIComponent(apiKey)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -64,11 +66,11 @@ export async function ask(req: Request, res: Response) {
         generationConfig: { maxOutputTokens: 1024 },
       }),
     });
-    const data = (await res.json()) as {
+    const data = (await fetchRes.json()) as {
       candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
       error?: { message?: string };
     };
-    if (!res.ok) {
+    if (!fetchRes.ok) {
       const errMsg = data.error?.message ?? (typeof data === "object" ? JSON.stringify(data).slice(0, 300) : "Unknown error");
       res.status(502).json({ error: "AI service error", details: errMsg });
       return;
