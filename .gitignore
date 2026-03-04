@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment (never commit secrets)
+.env
+.env.local
+.env.*.local
+
+# Build / output
+.next/
+out/
+build/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / IDE
+.DS_Store
+.vercel
+*.tsbuildinfo

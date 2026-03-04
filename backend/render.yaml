@@ -1,0 +1,22 @@
+# Render Blueprint for LMS Backend
+# Deploy as Web Service; set env vars in Render dashboard.
+services:
+  - type: web
+    name: lms-backend
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false
+      - key: COOKIE_DOMAIN
+        sync: false
