@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { config } from "@/lib/config";
 import { apiGet, apiPost, apiDelete } from "@/lib/apiClient";
 import { useAuthStore } from "@/store/authStore";
@@ -357,12 +358,14 @@ export default function HomePage() {
                   href={`/subjects/${s.id}`}
                   className="group flex flex-col rounded border border-border bg-card overflow-hidden hover:border-accent transition-colors"
                 >
-                  <div className="aspect-video w-full shrink-0 overflow-hidden bg-card">
+                  <div className="aspect-video w-full shrink-0 overflow-hidden bg-card relative">
                     {thumbUrl ? (
-                      <img
+                      <Image
                         src={thumbUrl}
                         alt=""
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       />
                     ) : (
                       <div

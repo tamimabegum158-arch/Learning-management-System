@@ -73,7 +73,7 @@ export default function ChatPage() {
       let data: { reply?: string; error?: unknown; details?: unknown };
       try {
         data = (await res.json()) as { reply?: string; error?: unknown; details?: unknown };
-      } catch (_) {
+      } catch {
         setError("Invalid response from server. Try again.");
         setMessages((prev) => prev.slice(0, -1));
         return;
