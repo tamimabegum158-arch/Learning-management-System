@@ -1,7 +1,7 @@
 "use client";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "outline";
   children: React.ReactNode;
 }
 
@@ -10,7 +10,9 @@ export function Button({ variant = "primary", className = "", children, ...props
   const styles =
     variant === "primary"
       ? "bg-accent hover:bg-accent-hover text-accent-foreground border-accent"
-      : "border-border bg-card text-foreground hover:bg-background";
+      : variant === "outline"
+        ? "border-border bg-transparent text-foreground hover:bg-border"
+        : "border-border bg-card text-foreground hover:bg-background";
   return (
     <button className={`${base} ${styles} ${className}`} {...props}>
       {children}

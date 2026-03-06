@@ -20,7 +20,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="font-semibold text-lg text-foreground hover:text-accent transition-colors">
-            Learning Management System Application
+            Learning Management System
           </Link>
           <nav className="flex items-center gap-2">
             {isAuthenticated ? (

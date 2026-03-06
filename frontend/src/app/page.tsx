@@ -395,7 +395,7 @@ export default function HomePage() {
                     {isAuthenticated && (
                       <div className="mt-3 flex items-center gap-2 flex-wrap" onClick={(e) => e.preventDefault()}>
                         <Button
-                          variant={s.enrolled ? "secondary" : "primary"}
+                          variant={s.enrolled ? "secondary" : "outline"}
                           className="text-sm"
                           disabled={togglingEnrollId === s.id}
                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleEnroll(e, s.id, !!s.enrolled); }}
