@@ -28,6 +28,7 @@ model Subject {
   slug        String   @unique
   description String?
   isPublished Boolean  @default(false) @map("is_published")
+  priceCents  Int?     @map("price_cents")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 

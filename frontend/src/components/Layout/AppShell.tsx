@@ -17,33 +17,39 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b border-slate-200 dark:border-slate-700">
+      <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link href="/" className="font-semibold text-lg text-slate-800 dark:text-slate-100">
-            LMS Portal
+          <Link href="/" className="font-semibold text-lg text-foreground hover:text-accent transition-colors">
+            Learning Management System Application
           </Link>
           <nav className="flex items-center gap-2">
-            <Link
-              href="/compiler"
-              className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
-            >
-              Online compiler
-            </Link>
             {isAuthenticated ? (
               <>
                 <Link
+                  href="/compiler"
+                  className="rounded border border-border bg-background px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors font-medium"
+                >
+                  Compiler
+                </Link>
+                <Link
+                  href="/chat"
+                  className="rounded border border-border bg-background px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors font-medium"
+                >
+                  Ask AI
+                </Link>
+                <Link
                   href="/profile"
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="rounded border border-border bg-background px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors"
                 >
                   Profile
                 </Link>
-                <span className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400">
+                <span className="rounded border border-border bg-background px-3 py-2 text-sm text-muted">
                   {user?.name ?? user?.email}
                 </span>
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+                  className="rounded border border-border bg-background px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors font-medium"
                 >
                   Log out
                 </button>
@@ -52,13 +58,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <>
                 <Link
                   href="/auth/login"
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+                  className="rounded border border-border bg-background px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors font-medium"
                 >
                   Log in
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+                  className="rounded border border-border bg-background px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors font-medium"
                 >
                   Register
                 </Link>

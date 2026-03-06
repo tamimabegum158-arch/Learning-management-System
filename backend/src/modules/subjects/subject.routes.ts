@@ -29,9 +29,25 @@ router.delete("/:subjectId/enroll", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.post("/:subjectId/purchase", authMiddleware, async (req, res, next) => {
+  try {
+    await subjectController.purchaseSubject(req, res);
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.post("/", authMiddleware, async (req, res, next) => {
   try {
     await subjectController.createSubject(req, res);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.patch("/:subjectId", authMiddleware, async (req, res, next) => {
+  try {
+    await subjectController.patchSubject(req, res);
   } catch (e) {
     next(e);
   }

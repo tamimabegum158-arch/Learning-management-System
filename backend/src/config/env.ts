@@ -13,9 +13,30 @@ dotenv.config({ path: backendEnvPath });
 
 function requireEnv(name: string): string {
   const value = process.env[name];
-  if (!value) {
+  if (!value || typeof value !== "string") {
     throw new Error(`Missing required env: ${name}`);
   }
+  return value.trim();
+}
+
+/** Validate DATABASE_URL is an absolute connection string (e.g. mysql://...) so Prisma does not throw "relative URL without a base". */
+function requireDatabaseUrl(): string {
+  const raw = process.env.DATABASE_URL;
+  if (!raw || typeof raw !== "string") {
+    throw new Error(
+      "DATABASE_URL is not set. On Render: add DATABASE_URL in Environment with your full MySQL URL (e.g. from Aiven: mysql://user:password@host:port/dbname?ssl-mode=REQUIRED)."
+    );
+  }
+  const value = raw.trim();
+  if (!value) {
+    throw new Error("DATABASE_URL is empty. Set it in Render → Environment to your full MySQL connection string.");
+  }
+  if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(value)) {
+    throw new Error(
+      "DATABASE_URL must be a full URL starting with mysql:// (e.g. mysql://user:password@host:port/database). Check for typos or missing mysql:// in Render Environment."
+    );
+  }
+  process.env.DATABASE_URL = value;
   return value;
 }
 
@@ -24,8 +45,8 @@ function optionalEnv(name: string, defaultValue: string): string {
 }
 
 export const env = {
-  // Database
-  DATABASE_URL: requireEnv("DATABASE_URL"),
+  // Database (validated so Prisma does not get "relative URL without a base")
+  DATABASE_URL: requireDatabaseUrl(),
 
   // JWT
   JWT_ACCESS_SECRET: requireEnv("JWT_ACCESS_SECRET"),
@@ -42,6 +63,8 @@ export const env = {
   PORT: parseInt(optionalEnv("PORT", "4000"), 10),
   NODE_ENV: optionalEnv("NODE_ENV", "development"),
 
-  // AI (optional – free Gemini key for "Ask AI" on subject/video pages)
+  // AI – optional keys
   GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? "",
+  HUGGINGFACE_TOKEN: process.env.HUGGINGFACE_TOKEN ?? "",
+  HF_CHAT_MODEL: process.env.HF_CHAT_MODEL ?? "",
 };

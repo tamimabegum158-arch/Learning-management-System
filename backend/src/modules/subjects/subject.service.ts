@@ -2,6 +2,27 @@ import * as subjectRepo from "./subject.repository.js";
 import * as sectionRepo from "../sections/section.repository.js";
 import * as progressRepo from "../progress/progress.repository.js";
 import { getSubjectDescriptionFromPreset } from "./subjectPresets.js";
+
+/** Non-technical or removed subject keys: these are excluded from the courses list. */
+const NON_TECHNICAL_KEYS = new Set([
+  "communication", "communication-skills",
+  "project-management", "pm", "pmp",
+  "english", "spoken-english", "english-speaking",
+  "resume", "resume-writing", "cv",
+  "interview", "interview-skills", "job-interview",
+  "time-management", "productivity",
+  "leadership", "leadership-skills",
+  "soft-skills",
+  "public-speaking", "presentation-skills",
+  "getting-started",
+  // Removed: aws, linux, linux-networking, spring boot, networking
+  "aws", "amazon-web-services", "cloud",
+  "linux", "ubuntu", "unix",
+  "linux-networking",
+  "spring-boot", "springboot", "spring",
+  "networking", "computer-networks", "networks",
+  "data-structures", "data-structure", "datastructures", "dsa", "algorithms",
+]);
 import { prisma } from "../../config/db.js";
 import {
   flattenVideoOrder,
@@ -16,22 +37,41 @@ export async function listSubjects(params: {
   q?: string;
   userId?: number;
 }) {
-  const result = await subjectRepo.getPublishedSubjects(params);
+  const result = await subjectRepo.getPublishedSubjects({
+    ...params,
+    excludeSlugs: Array.from(NON_TECHNICAL_KEYS),
+  });
   const items = result.items.map((s) => {
+    const base = { ...s, priceCents: s.priceCents ?? null };
     if (!s.description?.trim()) {
       const presetDesc = getSubjectDescriptionFromPreset(s.title);
-      if (presetDesc) return { ...s, description: presetDesc };
+      if (presetDesc) return { ...base, description: presetDesc };
     }
-    return s;
+    return base;
   });
   return { ...result, items };
 }
 
-export async function createSubject(data: { title: string; description?: string | null }) {
+export async function createSubject(data: {
+  title: string;
+  description?: string | null;
+  priceCents?: number | null;
+}) {
   const title = data.title?.trim();
   if (!title) throw new Error("Title is required");
   const description = data.description?.trim() || null;
-  return subjectRepo.createSubject({ title, description });
+  const priceCents =
+    data.priceCents != null && Number.isInteger(data.priceCents) && data.priceCents >= 0
+      ? data.priceCents
+      : null;
+  return subjectRepo.createSubject({ title, description, priceCents });
+}
+
+export async function updateSubject(
+  subjectId: number,
+  data: { priceCents?: number | null }
+) {
+  return subjectRepo.updateSubject(subjectId, data);
 }
 
 export async function deleteSubject(subjectId: number) {
@@ -49,6 +89,15 @@ export async function createSection(subjectId: number, title: string) {
 }
 
 export async function enrollUserInSubject(subjectId: number, userId: number) {
+  const subject = await subjectRepo.getSubjectById(subjectId);
+  if (!subject || !subject.isPublished) return null;
+  // Paid courses require purchase; free enroll only for free courses
+  if (subject.priceCents != null && subject.priceCents > 0) return null;
+  await subjectRepo.enrollUser(userId, subjectId);
+  return subjectId;
+}
+
+export async function purchaseCourse(subjectId: number, userId: number) {
   const subject = await subjectRepo.getSubjectById(subjectId);
   if (!subject || !subject.isPublished) return null;
   await subjectRepo.enrollUser(userId, subjectId);
@@ -118,9 +167,12 @@ export async function getSubjectTree(subjectId: number, userId: number) {
   );
   const lockedMap = computeLockedStates(flatVideos, progressByVideoId);
 
+  const enrolled = await subjectRepo.getEnrolledSubjectIds(userId).then((ids) => ids.includes(subjectId));
   return {
     id: subject.id,
     title: subject.title,
+    priceCents: subject.priceCents ?? null,
+    enrolled,
     sections: subject.sections.map((s) => ({
       id: s.id,
       title: s.title,

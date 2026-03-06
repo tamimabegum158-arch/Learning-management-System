@@ -2,15 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Minimalist traditional theme – one accent, neutral grays. */
 :root {
-  --background: #ffffff;
-  --foreground: #334155;
+  --background: #fafafa;
+  --foreground: #262626;
+  --muted: #737373;
+  --border: #e5e5e5;
+  --card: #ffffff;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --accent-foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1e293b;
-    --foreground: #e2e8f0;
+    --background: #171717;
+    --foreground: #fafafa;
+    --muted: #a3a3a3;
+    --border: #404040;
+    --card: #262626;
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+    --accent-foreground: #ffffff;
   }
 }
 

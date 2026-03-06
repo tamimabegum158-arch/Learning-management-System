@@ -4,7 +4,8 @@ services:
   - type: web
     name: lms-backend
     runtime: node
-    buildCommand: npm install && npm run build
+    # --include=dev ensures @types/* and typescript install when NODE_ENV=production
+    buildCommand: npm install --include=dev && npx prisma generate && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:

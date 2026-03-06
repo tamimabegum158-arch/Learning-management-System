@@ -8,11 +8,11 @@ interface VideoMetaProps {
 export function VideoMeta({ title, description }: VideoMetaProps) {
   return (
     <div className="mt-4">
-      <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+      <h1 className="text-xl font-semibold text-foreground">
         {title}
       </h1>
       {description && (
-        <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mt-2 text-sm text-muted">
           {description}
         </p>
       )}

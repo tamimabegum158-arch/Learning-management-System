@@ -23,9 +23,12 @@ Learning Management System with Next.js frontend, Express backend, and MySQL (Ai
 
 ## Deployment
 
-- **Backend (Render):** Deploy the `backend` directory as a Node web service. Set env vars (see `backend/.env.example`). Health check: `GET /api/health`. Run `npx prisma migrate deploy` in build or as a release command.
-- **Frontend (Vercel):** Set root to `frontend`, build `next build`. Set `NEXT_PUBLIC_API_BASE_URL` to the Render backend URL.
-- **Database (Aiven MySQL):** Provision MySQL, run migrations, set `DATABASE_URL` on the backend.
+See **[DEPLOYMENT-STEPS.md](./DEPLOYMENT-STEPS.md)** for the full step-by-step guide (backend → frontend → connect).  
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for the shorter reference.
+
+- **Backend (Render):** Root directory `backend`, build `npm install && npx prisma generate && npm run build`, start `npm start`. Set env vars (see `backend/.env.example`). Health check: `GET /api/health`. Run `npx prisma migrate deploy` as release command or manually.
+- **Frontend (Vercel):** Root directory `frontend`, set `NEXT_PUBLIC_API_BASE_URL` to your Render backend URL.
+- **Database:** Use Aiven MySQL (or any MySQL); set `DATABASE_URL` on the backend.
 
 ## API overview
 

@@ -41,7 +41,7 @@ export function VideoPlayer({
 
   return (
     <div className="w-full max-w-4xl">
-      <p className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">
+      <p className="mb-1.5 text-sm font-medium text-foreground">
         Video plays in LMS portal (below) — not on YouTube
       </p>
       <div className="aspect-video bg-black rounded overflow-hidden">
@@ -54,7 +54,7 @@ export function VideoPlayer({
           className="w-full h-full min-h-[280px]"
         />
       </div>
-      <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-1.5 text-xs text-muted">
         If the video does not load above, the owner may have disabled embedding. Use &quot;Open on YouTube&quot; below only as fallback.
       </p>
     </div>

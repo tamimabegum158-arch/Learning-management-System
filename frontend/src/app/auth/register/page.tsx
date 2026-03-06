@@ -35,18 +35,18 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 shadow-lg p-6">
-        <h1 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-6">
+      <div className="w-full max-w-sm rounded border border-border bg-card p-6">
+        <h1 className="text-2xl font-semibold text-foreground mb-6">
           Create account
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+            <p className="text-sm text-red-600" role="alert">
               {error}
             </p>
           )}
           <div>
-            <label htmlFor="register-name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label htmlFor="register-name" className="block text-sm font-medium text-foreground mb-1">
               Name
             </label>
             <input
@@ -58,11 +58,11 @@ export default function RegisterPage() {
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="Your full name"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+              className="w-full px-3 py-2 border border-border rounded bg-background text-foreground placeholder:text-muted"
             />
           </div>
           <div>
-            <label htmlFor="register-email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label htmlFor="register-email" className="block text-sm font-medium text-foreground mb-1">
               Email
             </label>
             <input
@@ -74,11 +74,11 @@ export default function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="you@example.com"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+              className="w-full px-3 py-2 border border-border rounded bg-background text-foreground placeholder:text-muted"
             />
           </div>
           <div>
-            <label htmlFor="register-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label htmlFor="register-password" className="block text-sm font-medium text-foreground mb-1">
               Password
             </label>
             <input
@@ -91,21 +91,21 @@ export default function RegisterPage() {
               required
               minLength={8}
               placeholder="At least 8 characters"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+              className="w-full px-3 py-2 border border-border rounded bg-background text-foreground placeholder:text-muted"
             />
-            <p className="mt-1 text-xs text-slate-500">At least 8 characters</p>
+            <p className="mt-1 text-xs text-muted">At least 8 characters</p>
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 bg-slate-600 hover:bg-slate-500 dark:bg-slate-500 dark:hover:bg-slate-400 text-white dark:text-slate-900 font-medium rounded-lg transition-colors disabled:opacity-50"
+            className="w-full py-2.5 px-4 bg-accent hover:bg-accent-hover text-accent-foreground font-medium rounded border border-accent transition-colors disabled:opacity-50"
           >
             {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
-        <p className="mt-4 text-sm text-slate-500">
+        <p className="mt-4 text-sm text-muted">
           Already have an account?{" "}
-          <Link href="/auth/login" className="text-slate-800 dark:text-slate-100 font-medium underline hover:no-underline">
+          <Link href="/auth/login" className="text-accent font-medium underline hover:no-underline">
             Log in
           </Link>
         </p>

@@ -49,8 +49,11 @@ export async function apiFetch<T = unknown>(
   }
 
   if (!res.ok) {
-    const err = (await res.json().catch(() => ({}))) as { error?: string };
-    throw new Error(err.error ?? `Request failed: ${res.status}`);
+    const err = (await res.json().catch(() => ({}))) as { error?: unknown };
+    const msg = err.error != null
+      ? (typeof err.error === "string" ? err.error : JSON.stringify(err.error))
+      : `Request failed: ${res.status}`;
+    throw new Error(msg);
   }
   if (res.status === 204 || res.headers.get("content-length") === "0") {
     return undefined as T;

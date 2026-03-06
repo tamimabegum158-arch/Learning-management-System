@@ -21,6 +21,8 @@ export interface TreeSection {
 export interface SubjectTree {
   id: number;
   title: string;
+  priceCents?: number | null;
+  enrolled?: boolean;
   sections: TreeSection[];
 }
 

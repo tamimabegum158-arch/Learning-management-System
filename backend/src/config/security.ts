@@ -25,8 +25,29 @@ export const cookieOptions = {
 
 export const REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
+// Normalize: trim and remove trailing slash so CORS matches browser Origin (no trailing slash)
+const corsOriginRaw = env.CORS_ORIGIN?.trim().replace(/\/+$/, "") || "";
+const corsOriginList = corsOriginRaw
+  ? corsOriginRaw.split(",").map((o) => o.trim()).filter(Boolean)
+  : [];
+// Always allow localhost:3000 for local dev so frontend can reach backend even when .env has production CORS
+const localDevOrigin = "http://localhost:3000";
+const allowedOrigins = corsOriginList.includes(localDevOrigin)
+  ? corsOriginList
+  : [localDevOrigin, ...corsOriginList];
+function originAllowed(origin: string | undefined): boolean {
+  if (!origin) return true; // allow requests with no Origin (e.g. same-origin, Postman)
+  const normalized = origin.replace(/\/+$/, "");
+  return allowedOrigins.some((o) => o === normalized);
+}
 export const corsOptions = {
-  origin: env.CORS_ORIGIN,
+  origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean | string) => void) => {
+    if (originAllowed(origin)) {
+      cb(null, origin || true); // reflect origin when present (required for credentials)
+      return;
+    }
+    cb(null, false);
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

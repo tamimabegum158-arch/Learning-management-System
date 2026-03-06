@@ -67,14 +67,10 @@ const V = {
   nodejs: "TlB_eWDSMt4",             // Node.js Full Course
   htmlCss: "mU6anWqZJcc",            // HTML & CSS Full Course
   git: "RGOj5yH7evk",                // Git and GitHub for Beginners
-  dataStructures: "RBSGKlAvoiM",     // Data Structures and Algorithms (freeCodeCamp)
   machineLearning: "ukzFI9rgwfU",    // Machine Learning Course – Python
   deepLearning: "ukzFI9rgwfU",      // Deep Learning / Neural Networks (ML course covers DL)
   deepLearning2: "ukzFI9rgwfU",     // Same course – neural networks and training
-  aws: "ulprqHHWlNg",                // AWS Tutorial for Beginners
   docker: "fqMOX6JJhGo",             // Docker Tutorial for Beginners
-  linux: "wBp0RbZJakQ",              // Linux for Beginners
-  networking: "q3y2-t6klAk",         // Computer Networking Course
   oops: "pTB0EiLXUC8",               // OOP in Python / Object-Oriented Programming
   // Frontend frameworks & libraries
   vue: "4deVCNJq3qc",                // Vue.js Course for Beginners
@@ -84,26 +80,19 @@ const V = {
   express: "TlB_eWDSMt4",             // Node/Express (same as nodejs)
   django: "rHux0gMZ3Eg",              // Django – Python web framework
   flask: "Z1RJmh_OqeA",              // Flask – Python micro web framework
-  springboot: "9SGDpannr8o",         // Spring Boot full course
-  // Non-technical subjects (TED, Google, freeCodeCamp – embeddable)
-  communication: "eIho2S0ZahI",     // Julian Treasure – How to speak so people want to listen (TED)
-  communication2: "ESkB4_8YClI",     // TED – How to Unlock Your Communication Superpower
-  projectManagement: "SJcHiiNpUds",  // Google Project Management Certificate – 2hr full course
-  projectManagement2: "IpwR2t_7Xwg", // Google PM Professional Certificate – full course
-  english: "LDkvRFCm8No",           // BBC Learning English – How to speak more fluently
-  english2: "gYq-ilAbxDM",          // 55 English lessons – grammar & vocabulary
-  resume: "mE3qB1do50Y",            // Google – Top Resume Tips From Recruiters
-  resume2: "XgH4LOkPhBk",           // Google – How To Write A Resume That Stands Out
-  interview: "8hpSMnCwCxY",         // freeCodeCamp – Master Behavioral Interviews
-  interview2: "8hpSMnCwCxY",        // Same – behavioral interview deep dive
-  timeManagement: "y2X7c9TUQJ8",    // Rory Vaden – How To Multiply Your Time (TEDx)
-  timeManagement2: "Rk5C149J9C0",   // Tim Urban – Why you procrastinate (TED)
-  leadership: "qp0HIF3SfI4",        // Simon Sinek – How great leaders inspire action (TED)
-  leadership2: "qp0HIF3SfI4",       // Same – leadership and inspiration
-  softSkills: "eIho2S0ZahI",        // Communication (TED)
-  softSkills2: "Ks-_Mh1QhMc",       // Body language / confidence (TED)
-  publicSpeaking: "Ks-_Mh1QhMc",    // Amy Cuddy – Body language (TED)
-  publicSpeaking2: "eIho2S0ZahI",   // Julian Treasure – How to speak (TED)
+  // Additional technical courses
+  mongodb: "4yqu8YF29cU",            // MongoDB Full Tutorial w/ Node.js, Express, Mongoose
+  kubernetes: "_4uQI4ihGVU",         // freeCodeCamp – Kubernetes in 6 Hours
+  graphql: "5199E50O7SI",            // freeCodeCamp – GraphQL Course for Beginners
+  redis: "XCsS_NVAa1g",              // freeCodeCamp – Redis Course In-Memory Database
+  restApi: "EbHf2aCuPVM",            // REST API Design – Concepts to Constraints
+  systemDesign: "F2FmTdLtb_4",       // freeCodeCamp – System Design Concepts & Interview Prep
+  reactNative: "WDunoPNBxKA",        // React Native Full Course for Beginners (4hr)
+  devops: "j5Zsa_eOXeY",             // freeCodeCamp – DevOps Engineering for Beginners
+  bash: "mSQM8Xo78Wc",               // Bash Scripting Tutorial for Beginners 3hr
+  microservices: "h6aDu9e2L_s",      // Microservices Tutorial for Beginners (Telusko)
+  jenkins: "f4idgaq2VqA",            // freeCodeCamp – Learn Jenkins CI/CD Pipeline
+  cybersecurity: "fd9LPDSeP_I",       // Cybersecurity for Beginners – entire course FREE
   // Fallback: use freeCodeCamp JavaScript (embeddable, public)
   generic: "PkZNo7MFNFg",
 };
@@ -372,15 +361,6 @@ export const SUBJECT_PRESETS: SubjectPreset[] = [
     ],
   },
   {
-    keys: ["data-structures", "datastructures", "algorithms", "dsa"],
-    description: "Data structures and algorithms. Full curriculum from introduction to end – arrays, trees, sorting, and problem-solving.",
-    sections: [
-      { title: "Introduction to DSA", videos: [{ title: "Data Structures and Algorithms Full Course", description: "Arrays, linked lists, trees, sorting, searching – full curriculum.", youtube_video_id: V.dataStructures }] },
-      { title: "Core Data Structures", videos: [{ title: "Arrays, Lists, Trees, and Graphs", description: "Essential structures for coding interviews.", youtube_video_id: V.dataStructures }] },
-      { title: "Complete DSA Course", videos: [{ title: "Algorithms – From Start to End", description: "Sorting, searching, and optimization.", youtube_video_id: V.generic }] },
-    ],
-  },
-  {
     keys: ["deep-learning", "deeplearning", "dl"],
     description: "Neural networks and deep learning. Full curriculum from introduction to end – CNNs, RNNs, and real-world applications.",
     sections: [
@@ -399,39 +379,12 @@ export const SUBJECT_PRESETS: SubjectPreset[] = [
     ],
   },
   {
-    keys: ["aws", "amazon-web-services", "cloud"],
-    description: "Cloud computing with AWS. Full curriculum from introduction to end – EC2, S3, Lambda, and cloud architecture.",
-    sections: [
-      { title: "Introduction to AWS", videos: [{ title: "AWS Tutorial for Beginners", description: "Amazon Web Services – full course from start to end.", youtube_video_id: V.aws }] },
-      { title: "AWS Core Services", videos: [{ title: "EC2, S3, and Lambda", description: "Core AWS services and use cases.", youtube_video_id: V.aws }] },
-      { title: "Complete AWS Course", videos: [{ title: "Cloud Architecture – From Start to End", description: "Design and deploy on AWS.", youtube_video_id: V.generic }] },
-    ],
-  },
-  {
     keys: ["docker", "containers"],
     description: "Containerization with Docker. Full curriculum from introduction to end – images, containers, and deployment.",
     sections: [
       { title: "Introduction to Docker", videos: [{ title: "Docker Tutorial for Beginners", description: "Containers, Dockerfile, and DevOps basics.", youtube_video_id: V.docker }] },
       { title: "Docker & DevOps", videos: [{ title: "Images, Containers, and Compose", description: "Build and run containerized applications.", youtube_video_id: V.docker }] },
       { title: "Complete Docker Course", videos: [{ title: "Docker – From Start to End", description: "Containerization and deployment.", youtube_video_id: V.generic }] },
-    ],
-  },
-  {
-    keys: ["linux", "ubuntu", "unix"],
-    description: "Linux operating system. Full curriculum from introduction to end – command line, scripting, and administration.",
-    sections: [
-      { title: "Introduction to Linux", videos: [{ title: "Linux for Beginners", description: "Terminal, file system, and essential commands.", youtube_video_id: V.linux }] },
-      { title: "Linux Fundamentals", videos: [{ title: "Shell, Permissions, and Scripting", description: "Core Linux skills for developers.", youtube_video_id: V.linux }] },
-      { title: "Complete Linux Course", videos: [{ title: "Linux – From Start to End", description: "Administration and automation.", youtube_video_id: V.generic }] },
-    ],
-  },
-  {
-    keys: ["networking", "computer-networks", "networks"],
-    description: "Computer networking fundamentals. Full curriculum from introduction to end – TCP/IP, protocols, and design.",
-    sections: [
-      { title: "Introduction to Networking", videos: [{ title: "Computer Networking Course", description: "Networks, protocols, and security – full course.", youtube_video_id: V.networking }] },
-      { title: "Networking Fundamentals", videos: [{ title: "TCP/IP, DNS, and Security", description: "How networks work and how to secure them.", youtube_video_id: V.networking }] },
-      { title: "Complete Networking Course", videos: [{ title: "Networking – From Start to End", description: "Design and troubleshoot networks.", youtube_video_id: V.generic }] },
     ],
   },
   {
@@ -492,108 +445,103 @@ export const SUBJECT_PRESETS: SubjectPreset[] = [
     ],
   },
   {
-    keys: ["spring-boot", "springboot", "spring"],
-    description: "Java framework for production backend. REST APIs, data, and microservices.",
+    keys: ["mongodb", "mongo", "nosql"],
+    description: "NoSQL document database. Learn MongoDB with Node.js, Express, and Mongoose – from introduction to end.",
     sections: [
-      { title: "Introduction to Spring Boot", videos: [{ title: "Spring Boot Full Course", description: "Spring Boot – REST, JPA, and production apps.", youtube_video_id: V.springboot }] },
-      { title: "Spring Boot Fundamentals", videos: [{ title: "Spring Boot – From Start to End", description: "Build Java backend services.", youtube_video_id: V.springboot }] },
-    ],
-  },
-  // ---------- Non-technical subjects (full curriculum: intro → end) — seeded first so they appear LOWER on page ----------
-  {
-    keys: ["communication", "communication-skills"],
-    description: "Effective communication for work and life. Full curriculum from introduction to end – verbal, written, and interpersonal skills.",
-    sections: [
-      { title: "Introduction to Communication", videos: [{ title: "How to Speak So People Want to Listen", description: "Julian Treasure (TED) – clarity and confidence.", youtube_video_id: V.communication }] },
-      { title: "Core Communication Skills", videos: [{ title: "Unlock Your Communication Superpower", description: "TED – become a supercommunicator.", youtube_video_id: V.communication2 }] },
-      { title: "Complete Communication Course", videos: [{ title: "Communication – From Start to End", description: "Verbal, written, and interpersonal mastery.", youtube_video_id: V.communication }] },
+      { title: "Introduction to MongoDB", videos: [{ title: "MongoDB Full Tutorial with Node.js, Express & Mongoose", description: "Installation, schemas, CRUD, and deployment.", youtube_video_id: V.mongodb }] },
+      { title: "MongoDB Fundamentals", videos: [{ title: "MongoDB and Mongoose – Queries and Models", description: "Data modeling and queries in MongoDB.", youtube_video_id: V.mongodb }] },
+      { title: "Complete MongoDB Course", videos: [{ title: "MongoDB – From Start to End", description: "Build apps with MongoDB and Node.", youtube_video_id: V.generic }] },
     ],
   },
   {
-    keys: ["project-management", "pm", "pmp"],
-    description: "Plan, execute, and deliver projects. Full curriculum from introduction to end – Agile, Scrum, and tools.",
+    keys: ["kubernetes", "k8s", "kube"],
+    description: "Container orchestration. Learn Kubernetes from introduction to end – Pods, Deployments, Services, and production.",
     sections: [
-      { title: "Introduction to Project Management", videos: [{ title: "Google Project Management Certificate", description: "2hr full course – planning, execution, delivery.", youtube_video_id: V.projectManagement }] },
-      { title: "PM Fundamentals", videos: [{ title: "Project Management Professional – Full Course", description: "PMP concepts and best practices.", youtube_video_id: V.projectManagement2 }] },
-      { title: "Complete Project Management", videos: [{ title: "PM – From Start to End", description: "Agile, Scrum, and delivery.", youtube_video_id: V.projectManagement }] },
+      { title: "Introduction to Kubernetes", videos: [{ title: "Learn Kubernetes in 6 Hours – Full Course", description: "freeCodeCamp – architecture, YAML, Pods, Deployments, Services.", youtube_video_id: V.kubernetes }] },
+      { title: "Kubernetes Fundamentals", videos: [{ title: "Kubernetes – Networking, Storage, and Monitoring", description: "StatefulSets, volumes, and real-world deployment.", youtube_video_id: V.kubernetes }] },
+      { title: "Complete Kubernetes Course", videos: [{ title: "Kubernetes – From Start to End", description: "Container orchestration and DevOps.", youtube_video_id: V.generic }] },
     ],
   },
   {
-    keys: ["english", "spoken-english", "english-speaking"],
-    description: "Improve your English – speaking, grammar, and confidence. Full curriculum from introduction to end.",
+    keys: ["graphql", "graph-ql"],
+    description: "Query language for APIs. Learn GraphQL from introduction to end – schemas, resolvers, and Apollo.",
     sections: [
-      { title: "Introduction to English Speaking", videos: [{ title: "How to Speak English More Fluently", description: "BBC Learning English – practical tips.", youtube_video_id: V.english }] },
-      { title: "English Grammar & Vocabulary", videos: [{ title: "55 English Lessons in 55 Minutes", description: "Grammar and vocabulary mega-class.", youtube_video_id: V.english2 }] },
-      { title: "Complete English Course", videos: [{ title: "English – From Start to End", description: "Speaking, grammar, and confidence.", youtube_video_id: V.english }] },
+      { title: "Introduction to GraphQL", videos: [{ title: "GraphQL Course for Beginners", description: "freeCodeCamp – queries, Apollo Server, schemas, mutations.", youtube_video_id: V.graphql }] },
+      { title: "GraphQL Fundamentals", videos: [{ title: "GraphQL – From Start to End", description: "Build APIs with GraphQL.", youtube_video_id: V.graphql }] },
     ],
   },
   {
-    keys: ["resume", "resume-writing", "cv"],
-    description: "Write a strong resume and CV. Full curriculum from introduction to end – format, content, and ATS-friendly tips.",
+    keys: ["redis", "cache", "caching"],
+    description: "In-memory data store for caching and queues. Learn Redis from introduction to end.",
     sections: [
-      { title: "Introduction to Resume Writing", videos: [{ title: "Top Resume Tips From Recruiters", description: "Google – what recruiters look for.", youtube_video_id: V.resume }] },
-      { title: "Resume Fundamentals", videos: [{ title: "How To Write A Resume That Stands Out", description: "Google – format, keywords, and impact.", youtube_video_id: V.resume2 }] },
-      { title: "Complete Resume Course", videos: [{ title: "Resume & CV – From Start to End", description: "ATS-friendly, structure, and examples.", youtube_video_id: V.resume }] },
+      { title: "Introduction to Redis", videos: [{ title: "Redis Course – In-Memory Database Tutorial", description: "freeCodeCamp – data structures, transactions, pub/sub.", youtube_video_id: V.redis }] },
+      { title: "Redis Fundamentals", videos: [{ title: "Redis – Caching and Real-World Use", description: "Use Redis in your applications.", youtube_video_id: V.redis }] },
     ],
   },
   {
-    keys: ["interview", "interview-skills", "job-interview"],
-    description: "Ace job interviews. Full curriculum from introduction to end – preparation, questions, and body language.",
+    keys: ["rest-api", "rest", "api-design", "apis"],
+    description: "RESTful API design and development. Learn REST from concepts to constraints and best practices.",
     sections: [
-      { title: "Introduction to Interview Skills", videos: [{ title: "Master Behavioral Interviews", description: "freeCodeCamp – STAR method and preparation.", youtube_video_id: V.interview }] },
-      { title: "Interview Preparation", videos: [{ title: "Job Interview Skills – Deep Dive", description: "Common questions and how to answer.", youtube_video_id: V.interview2 }] },
-      { title: "Complete Interview Course", videos: [{ title: "Interviews – From Start to End", description: "Preparation, delivery, and follow-up.", youtube_video_id: V.interview }] },
+      { title: "Introduction to REST API", videos: [{ title: "REST API From Concepts to Constraints", description: "Design and versioning of HTTP/REST APIs.", youtube_video_id: V.restApi }] },
+      { title: "REST API Fundamentals", videos: [{ title: "Designing RESTful Web APIs", description: "Resources, endpoints, and security.", youtube_video_id: V.generic }] },
     ],
   },
   {
-    keys: ["time-management", "productivity"],
-    description: "Manage time and get more done. Full curriculum from introduction to end – priorities, planning, and focus.",
+    keys: ["system-design", "systemdesign", "system-design-interview"],
+    description: "System design for scalability and interviews. Full curriculum – load balancing, databases, caching.",
     sections: [
-      { title: "Introduction to Time Management", videos: [{ title: "How To Multiply Your Time", description: "Rory Vaden (TEDx) – prioritize and plan.", youtube_video_id: V.timeManagement }] },
-      { title: "Productivity Fundamentals", videos: [{ title: "Why You Procrastinate – And How to Get Things Done", description: "Tim Urban (TED) – focus and habits.", youtube_video_id: V.timeManagement2 }] },
-      { title: "Complete Time Management", videos: [{ title: "Time & Productivity – From Start to End", description: "Priorities, planning, and execution.", youtube_video_id: V.timeManagement }] },
+      { title: "Introduction to System Design", videos: [{ title: "System Design Concepts Course and Interview Prep", description: "freeCodeCamp – scalability, reliability, architecture.", youtube_video_id: V.systemDesign }] },
+      { title: "System Design Deep Dive", videos: [{ title: "System Design – From Start to End", description: "High-level design and common interview questions.", youtube_video_id: V.systemDesign }] },
     ],
   },
   {
-    keys: ["leadership", "leadership-skills"],
-    description: "Lead teams and projects effectively. Full curriculum from introduction to end – influence, delegation, and motivation.",
+    keys: ["react-native", "reactnative", "mobile-development"],
+    description: "Cross-platform mobile apps with React Native. Build iOS and Android from introduction to end.",
     sections: [
-      { title: "Introduction to Leadership", videos: [{ title: "How Great Leaders Inspire Action", description: "Simon Sinek (TED) – start with why.", youtube_video_id: V.leadership }] },
-      { title: "Leadership Fundamentals", videos: [{ title: "Leadership Skills – Influence and Motivation", description: "How to lead with impact and empathy.", youtube_video_id: V.leadership2 }] },
-      { title: "Complete Leadership Course", videos: [{ title: "Leadership – From Start to End", description: "Delegation, teams, and vision.", youtube_video_id: V.leadership }] },
+      { title: "Introduction to React Native", videos: [{ title: "React Native Full Course for Beginners", description: "4hr – setup, components, navigation, and projects.", youtube_video_id: V.reactNative }] },
+      { title: "React Native Fundamentals", videos: [{ title: "React Native – From Start to End", description: "Build mobile apps with React Native.", youtube_video_id: V.reactNative }] },
     ],
   },
   {
-    keys: ["soft-skills"],
-    description: "Essential soft skills for career success. Full curriculum from introduction to end – communication, teamwork, adaptability.",
+    keys: ["devops", "ci-cd", "cicd", "continuous-integration"],
+    description: "DevOps and CI/CD. Learn deployment, pipelines, and application performance from introduction to end.",
     sections: [
-      { title: "Introduction to Soft Skills", videos: [{ title: "Communication Skills for Career", description: "TED – how to communicate effectively.", youtube_video_id: V.softSkills }] },
-      { title: "Core Soft Skills", videos: [{ title: "Body Language and Confidence", description: "TED – how you present yourself.", youtube_video_id: V.softSkills2 }] },
-      { title: "Complete Soft Skills Course", videos: [{ title: "Soft Skills – From Start to End", description: "Communication, teamwork, and professionalism.", youtube_video_id: V.softSkills }] },
+      { title: "Introduction to DevOps", videos: [{ title: "DevOps Engineering Course for Beginners", description: "freeCodeCamp – CI/CD, deployment strategies, APM.", youtube_video_id: V.devops }] },
+      { title: "DevOps Fundamentals", videos: [{ title: "DevOps – From Start to End", description: "Build and deploy with DevOps practices.", youtube_video_id: V.devops }] },
     ],
   },
   {
-    keys: ["public-speaking", "presentation-skills"],
-    description: "Speak confidently in public. Full curriculum from introduction to end – structure, delivery, and overcoming fear.",
+    keys: ["bash", "shell-scripting", "shell", "shell-script"],
+    description: "Bash and shell scripting for automation. Learn from introduction to end – variables, loops, and scripts.",
     sections: [
-      { title: "Introduction to Public Speaking", videos: [{ title: "Your Body Language May Shape Who You Are", description: "Amy Cuddy (TED) – confidence and presence.", youtube_video_id: V.publicSpeaking }] },
-      { title: "Public Speaking Fundamentals", videos: [{ title: "How to Speak So People Want to Listen", description: "Julian Treasure (TED) – structure and delivery.", youtube_video_id: V.publicSpeaking2 }] },
-      { title: "Complete Public Speaking", videos: [{ title: "Public Speaking – From Start to End", description: "Overcome fear, structure, and deliver.", youtube_video_id: V.publicSpeaking }] },
+      { title: "Introduction to Bash Scripting", videos: [{ title: "Bash Scripting Tutorial for Beginners – Full Course 3hr", description: "Variables, conditionals, loops, arrays, functions.", youtube_video_id: V.bash }] },
+      { title: "Bash Fundamentals", videos: [{ title: "Shell Scripting – From Start to End", description: "Automation and system administration.", youtube_video_id: V.bash }] },
     ],
   },
   {
-    keys: ["getting-started"],
-    description: "A short course to get you started with the LMS. Same-topic only: how to use the portal.",
+    keys: ["microservices", "microservices-architecture"],
+    description: "Microservices architecture. Learn service design, communication, and deployment from introduction to end.",
     sections: [
-      {
-        title: "Introduction",
-        videos: [
-          { title: "Welcome to the LMS", description: "Welcome and how to use the portal.", youtube_video_id: V.generic },
-        ],
-      },
+      { title: "Introduction to Microservices", videos: [{ title: "Microservices Tutorial for Beginners", description: "Eureka, Feign, API Gateway, service communication.", youtube_video_id: V.microservices }] },
+      { title: "Microservices Fundamentals", videos: [{ title: "Microservices – From Start to End", description: "Build and deploy microservices.", youtube_video_id: V.microservices }] },
     ],
   },
-
+  {
+    keys: ["jenkins"],
+    description: "CI/CD with Jenkins. Learn pipelines, automation, and deployment from introduction to end.",
+    sections: [
+      { title: "Introduction to Jenkins", videos: [{ title: "Learn Jenkins by Building a CI/CD Pipeline", description: "freeCodeCamp – Jenkinsfile, Docker, GitHub integration.", youtube_video_id: V.jenkins }] },
+      { title: "Jenkins Fundamentals", videos: [{ title: "Jenkins – From Start to End", description: "Build and run CI/CD pipelines.", youtube_video_id: V.jenkins }] },
+    ],
+  },
+  {
+    keys: ["cybersecurity", "cyber-security", "security", "ethical-hacking"],
+    description: "Cybersecurity and ethical hacking fundamentals. Learn security from introduction to end.",
+    sections: [
+      { title: "Introduction to Cybersecurity", videos: [{ title: "Cybersecurity for Beginners", description: "Security fundamentals and best practices.", youtube_video_id: V.cybersecurity }] },
+      { title: "Cybersecurity Fundamentals", videos: [{ title: "Cybersecurity – From Start to End", description: "Protect systems and applications.", youtube_video_id: V.cybersecurity }] },
+    ],
+  },
   // -------------------------------------------------------------------------
   // TEMPLATE: copy this block to add a new subject (description + sections + videos)
   // -------------------------------------------------------------------------

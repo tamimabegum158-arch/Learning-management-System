@@ -13,6 +13,7 @@ function slugify(title: string): string {
 export async function createSubject(data: {
   title: string;
   description?: string | null;
+  priceCents?: number | null;
 }) {
   let slug = slugify(data.title);
   let suffix = 0;
@@ -26,6 +27,7 @@ export async function createSubject(data: {
           description: data.description?.trim() || null,
           slug: candidate,
           isPublished: true,
+          priceCents: data.priceCents ?? null,
         },
       });
     }
@@ -76,6 +78,7 @@ export async function getPublishedSubjects(params: {
   pageSize?: number;
   q?: string;
   userId?: number;
+  excludeSlugs?: string[];
 }) {
   const page = Math.max(1, params.page ?? 1);
   const pageSize = Math.min(100, Math.max(1, params.pageSize ?? 20));
@@ -83,6 +86,9 @@ export async function getPublishedSubjects(params: {
 
   const where = {
     isPublished: true,
+    ...(params.excludeSlugs?.length
+      ? { slug: { notIn: params.excludeSlugs } }
+      : {}),
     ...(params.q?.trim()
       ? {
           OR: [
@@ -103,23 +109,69 @@ export async function getPublishedSubjects(params: {
     }
   }
 
-  const [items, total] = await Promise.all([
+  const [rows, total] = await Promise.all([
     prisma.subject.findMany({
       where,
       skip,
       take: pageSize,
       orderBy: { updatedAt: "desc" },
+      include: {
+        sections: {
+          orderBy: { orderIndex: "asc" },
+          include: {
+            videos: {
+              orderBy: { orderIndex: "asc" },
+              select: { youtubeVideoId: true },
+            },
+          },
+        },
+      },
     }),
     prisma.subject.count({ where }),
   ]);
 
   const enrolledSet = new Set(enrolledIds);
-  const itemsWithEnrolled = items.map((s) => ({
-    ...s,
-    enrolled: enrolledSet.has(s.id),
-  }));
+  const items = rows.map((s) => {
+    // Thumbnail from the first (opening) section only
+    let thumbnailYoutubeId: string | null = null;
+    const firstSection = (s.sections ?? [])[0];
+    if (firstSection?.videos) {
+      for (const video of firstSection.videos) {
+        const id = video?.youtubeVideoId?.trim();
+        if (id) {
+          thumbnailYoutubeId = id;
+          break;
+        }
+      }
+    }
+    const { sections: _s, ...rest } = s;
+    return {
+      ...rest,
+      enrolled: enrolledSet.has(s.id),
+      thumbnailYoutubeId,
+    };
+  });
 
-  return { items: itemsWithEnrolled, total, page, pageSize };
+  return { items, total, page, pageSize };
+}
+
+export async function updateSubject(
+  id: number,
+  data: { priceCents?: number | null }
+) {
+  const subject = await prisma.subject.findUnique({ where: { id } });
+  if (!subject) return null;
+  const priceCents =
+    data.priceCents === undefined
+      ? undefined
+      : data.priceCents == null || data.priceCents < 0
+        ? null
+        : data.priceCents;
+  if (priceCents === undefined) return subject;
+  return prisma.subject.update({
+    where: { id },
+    data: { priceCents },
+  });
 }
 
 export async function getSubjectById(id: number) {

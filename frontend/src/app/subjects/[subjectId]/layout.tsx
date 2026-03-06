@@ -35,10 +35,10 @@ export default function SubjectLayout({
         />
         <div className="flex-1 flex flex-col min-w-0">
           {!isVideoPage && (
-            <div className="border-b border-neutral-200 dark:border-neutral-800 px-4 py-2">
+            <div className="border-b border-border px-4 py-2">
               <Link
                 href={`/subjects/${subjectId}`}
-                className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100"
+                className="text-sm text-muted hover:text-accent"
               >
                 ← Back to subject
               </Link>
@@ -64,14 +64,14 @@ function SubjectSidebarWrapper({
 }) {
   if (loading) {
     return (
-      <aside className="w-64 shrink-0 border-r border-neutral-200 dark:border-neutral-800 p-4">
-        <p className="text-sm text-neutral-500">Loading...</p>
+      <aside className="w-64 shrink-0 border-r border-border p-4">
+        <p className="text-sm text-muted">Loading...</p>
       </aside>
     );
   }
   if (error || !tree) {
     return (
-      <aside className="w-64 shrink-0 border-r border-neutral-200 dark:border-neutral-800 p-4">
+      <aside className="w-64 shrink-0 border-r border-border p-4">
         <p className="text-sm text-red-600 dark:text-red-400">{error ?? "Failed to load"}</p>
       </aside>
     );

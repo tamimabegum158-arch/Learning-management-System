@@ -3,8 +3,8 @@ import "./globals.css";
 import { AppShell } from "@/components/Layout/AppShell";
 
 export const metadata: Metadata = {
-  title: "LMS Portal",
-  description: "Learning Management System",
+  title: "Learning Management System Application",
+  description: "Learning Management System Application",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900">
+      <body className="antialiased text-foreground bg-background">
         <AppShell>{children}</AppShell>
       </body>
     </html>

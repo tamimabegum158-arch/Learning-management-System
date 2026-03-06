@@ -2,7 +2,15 @@
 
 import { useState, useRef } from "react";
 import { config } from "@/lib/config";
+import { AuthGuard } from "@/components/Auth/AuthGuard";
 import { Button } from "@/components/common/Button";
+
+function toStr(x: unknown): string {
+  if (x == null) return "";
+  if (typeof x === "string") return x;
+  if (typeof x === "object") return JSON.stringify(x);
+  return String(x);
+}
 
 const PYODIDE_INDEX = "https://cdn.jsdelivr.net/pyodide/v0.24.1/full";
 const TYPESCRIPT_CDN = "https://cdn.jsdelivr.net/npm/typescript@5.0.4/lib/typescript.min.js";
@@ -219,9 +227,9 @@ export default function CompilerPage() {
           stdin,
         }),
       });
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({})) as { stdout?: string; stderr?: string; exitCode?: number; error?: unknown; details?: unknown };
       if (!res.ok) {
-        const details = data.details ?? "";
+        const details = toStr(data.details);
         const isServiceUnavailable =
           details.includes("whitelist") ||
           details.includes("Piston") ||
@@ -230,7 +238,7 @@ export default function CompilerPage() {
           stdout: "",
           stderr: "",
           exitCode: -1,
-          error: data.error ?? `Request failed: ${res.status}`,
+          error: toStr(data.error) || `Request failed: ${res.status}`,
           details: isServiceUnavailable
             ? "The public code execution service is no longer available. Use JavaScript, Python, or TypeScript (they run in your browser). For Java, C++, etc., set JUDGE0_AUTH_TOKEN or self-host Piston."
             : details,
@@ -238,14 +246,14 @@ export default function CompilerPage() {
         return;
       }
       setOutput({
-        stdout: data.stdout ?? "",
-        stderr: data.stderr ?? "",
-        exitCode: data.exitCode ?? -1,
-        error: data.error,
+        stdout: toStr(data.stdout),
+        stderr: toStr(data.stderr),
+        exitCode: typeof data.exitCode === "number" ? data.exitCode : -1,
+        error: data.error != null ? toStr(data.error) : undefined,
       });
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Failed to run code";
-      const isNetworkError = msg === "Failed to fetch" || msg === "NetworkError when attempting to fetch resource";
+      const msg = e instanceof Error ? e.message : (typeof e === "object" && e !== null ? JSON.stringify(e) : String(e));
+      const isNetworkError = msg === "Failed to fetch" || msg.includes("NetworkError when attempting to fetch resource");
       setOutput({
         stdout: "",
         stderr: "",
@@ -261,23 +269,21 @@ export default function CompilerPage() {
   };
 
   return (
+    <AuthGuard>
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-        Online compiler
+      <h1 className="text-2xl font-semibold text-foreground mb-6">
+        Compiler
       </h1>
-      <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-6">
-        <strong>JavaScript</strong>, <strong>Python</strong>, and <strong>TypeScript</strong> run in your browser (no server). For Python use &quot;Standard input&quot; for <code className="text-xs bg-neutral-200 dark:bg-neutral-700 px-1 rounded">input()</code>; for Java/C++ use it for <code className="text-xs bg-neutral-200 dark:bg-neutral-700 px-1 rounded">Scanner</code>/<code className="text-xs bg-neutral-200 dark:bg-neutral-700 px-1 rounded">cin</code>. Java, C++, and others use the backend when available.
-      </p>
 
       <div className="flex flex-wrap items-center gap-3 mb-3">
-        <label htmlFor="compiler-lang" className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+        <label htmlFor="compiler-lang" className="text-sm font-medium text-foreground">
           Language
         </label>
         <select
           id="compiler-lang"
           value={language.id}
           onChange={handleLanguageChange}
-          className="px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100"
+          className="px-3 py-2 border border-border rounded-lg bg-card text-foreground"
         >
           {LANGUAGES.map((l) => (
             <option key={l.id} value={l.id}>
@@ -295,13 +301,13 @@ export default function CompilerPage() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
           spellCheck={false}
-          className="w-full h-72 px-4 py-3 font-mono text-sm border border-neutral-300 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 resize-y min-h-[200px]"
+          className="w-full h-72 px-4 py-3 font-mono text-sm border border-border rounded-lg bg-background text-foreground placeholder:text-muted resize-y min-h-[200px]"
           placeholder="Enter your code..."
         />
       </div>
       {(language.id === "python" || !["javascript", "python", "typescript"].includes(language.id)) && (
         <div className="mb-4">
-          <label htmlFor="stdin" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label htmlFor="stdin" className="block text-sm font-medium text-foreground mb-1">
             Standard input (optional)
           </label>
           <textarea
@@ -312,36 +318,37 @@ export default function CompilerPage() {
               ? "One value per line, e.g. for input(): 10 then 20"
               : "One value per line, e.g. for Scanner/scanf: 10 then 20"}
             rows={3}
-            className="w-full px-4 py-2 font-mono text-sm border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400"
+            className="w-full px-4 py-2 font-mono text-sm border border-border rounded-lg bg-card text-foreground placeholder:text-muted"
           />
         </div>
       )}
 
       {output && (
-        <div className="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg bg-neutral-50 dark:bg-neutral-800/50">
-          <h2 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Output</h2>
+        <div className="p-4 border border-border rounded-lg bg-card">
+          <h2 className="text-sm font-medium text-foreground mb-2">Output</h2>
           {output.error && (
-            <p className="text-red-600 dark:text-red-400 text-sm mb-2">{output.error}</p>
+            <p className="text-red-600 dark:text-red-400 text-sm mb-2">{toStr(output.error)}</p>
           )}
           {output.details && (
-            <p className="text-neutral-600 dark:text-neutral-400 text-xs font-mono whitespace-pre-wrap mb-2">{output.details}</p>
+            <p className="text-muted text-xs font-mono whitespace-pre-wrap mb-2">{toStr(output.details)}</p>
           )}
           {output.stderr && (
-            <pre className="text-amber-700 dark:text-amber-400 text-sm whitespace-pre-wrap font-mono mb-2">
+            <pre className="text-foreground text-sm whitespace-pre-wrap font-mono mb-2">
               {output.stderr}
             </pre>
           )}
           {output.stdout && (
-            <pre className="text-neutral-800 dark:text-neutral-200 text-sm whitespace-pre-wrap font-mono">
+            <pre className="text-foreground text-sm whitespace-pre-wrap font-mono">
               {output.stdout}
             </pre>
           )}
           {!output.stdout && !output.stderr && !output.error && (
-            <p className="text-neutral-500 text-sm">(No output)</p>
+            <p className="text-muted text-sm">(No output)</p>
           )}
-          <p className="text-xs text-neutral-500 mt-2">Exit code: {output.exitCode}</p>
+          <p className="text-xs text-muted mt-2">Exit code: {output.exitCode}</p>
         </div>
       )}
     </div>
+    </AuthGuard>
   );
 }

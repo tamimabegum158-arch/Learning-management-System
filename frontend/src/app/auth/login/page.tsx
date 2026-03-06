@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { config } from "@/lib/config";
 import { login } from "@/lib/auth";
 
 export default function LoginPage() {
@@ -25,7 +26,9 @@ export default function LoginPage() {
       await login(trimmedEmail, password);
       router.push("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      const msg = err instanceof Error ? err.message : "Login failed";
+      setError(msg);
+      if (msg === "Failed to fetch") setError("Cannot reach the server. Set NEXT_PUBLIC_API_BASE_URL in Vercel to https://learning-management-system-rg7m.onrender.com and redeploy. Set CORS_ORIGIN on Render to this site's URL.");
     } finally {
       setLoading(false);
     }
@@ -33,18 +36,23 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 shadow-lg p-6">
-        <h1 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-6">
+      <div className="w-full max-w-sm rounded border border-border bg-card p-6">
+        <h1 className="text-2xl font-semibold text-foreground mb-6">
           Log in
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400" role="alert">
-              {error}
-            </p>
+            <div className="text-sm text-red-600" role="alert">
+              <p>{error}</p>
+              {error.includes("Cannot reach the server") && (
+                <p className="mt-2 text-xs text-muted break-all">
+                  API URL: {config.apiBaseUrl}
+                </p>
+              )}
+            </div>
           )}
           <div>
-            <label htmlFor="login-email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label htmlFor="login-email" className="block text-sm font-medium text-foreground mb-1">
               Email
             </label>
             <input
@@ -56,11 +64,11 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="you@example.com"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+              className="w-full px-3 py-2 border border-border rounded bg-background text-foreground placeholder:text-muted"
             />
           </div>
           <div>
-            <label htmlFor="login-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label htmlFor="login-password" className="block text-sm font-medium text-foreground mb-1">
               Password
             </label>
             <input
@@ -72,20 +80,20 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Your password"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+              className="w-full px-3 py-2 border border-border rounded bg-background text-foreground placeholder:text-muted"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 bg-slate-600 hover:bg-slate-500 dark:bg-slate-500 dark:hover:bg-slate-400 text-white dark:text-slate-900 font-medium rounded-lg transition-colors disabled:opacity-50"
+            className="w-full py-2.5 px-4 bg-accent hover:bg-accent-hover text-accent-foreground font-medium rounded border border-accent transition-colors disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
-        <p className="mt-4 text-sm text-slate-500">
+        <p className="mt-4 text-sm text-muted">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="text-slate-800 dark:text-slate-100 font-medium underline hover:no-underline">
+          <Link href="/auth/register" className="text-accent font-medium underline hover:no-underline">
             Register
           </Link>
         </p>

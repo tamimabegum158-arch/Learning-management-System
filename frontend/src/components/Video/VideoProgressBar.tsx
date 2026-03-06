@@ -21,15 +21,15 @@ export function VideoProgressBar({
 
   return (
     <div className={className}>
-      <div className="flex justify-between text-sm text-neutral-500 mb-1">
+      <div className="flex justify-between text-sm text-muted mb-1">
         <span>Progress</span>
         <span>
           {completed} / {total} videos ({percent}%)
         </span>
       </div>
-      <div className="h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded overflow-hidden">
+      <div className="h-1.5 bg-background rounded overflow-hidden">
         <div
-          className="h-full bg-neutral-700 dark:bg-neutral-300 rounded transition-all"
+          className="h-full bg-accent rounded transition-all"
           style={{ width: `${percent}%` }}
         />
       </div>
