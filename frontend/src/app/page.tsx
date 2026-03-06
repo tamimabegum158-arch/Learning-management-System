@@ -71,7 +71,10 @@ export default function HomePage() {
         .then(async (res) => {
           const json = await res.json().catch(() => ({}));
           if (!res.ok) {
-            throw new Error((json as { error?: string }).error ?? `Request failed (${res.status})`);
+            const msg = (json as { error?: string }).error ?? (res.status === 404
+              ? "API returned 404. Check that the backend is deployed on Render and Root Directory is set to 'backend'. Then open the backend URL in the browser to confirm."
+              : `Request failed (${res.status})`);
+            throw new Error(msg);
           }
           return json as SubjectsResponse;
         })
@@ -230,13 +233,17 @@ export default function HomePage() {
               </div>
             ) : (
               <>
-                <p className="mt-1 text-foreground font-medium">Set NEXT_PUBLIC_API_BASE_URL in Vercel and redeploy (env is set at build time).</p>
+                <p className="mt-1 text-foreground font-medium">Backend is reachable only if CORS is set on Render. Do this:</p>
                 <div className="mt-4 p-4 bg-card border border-border rounded text-sm space-y-2">
-                  <p className="font-semibold text-foreground">Do these in order:</p>
-                  <p><strong>1. Vercel</strong> — Settings → Environment Variables. Add <code className="bg-background px-1 rounded border border-border">NEXT_PUBLIC_API_BASE_URL</code> = your Render backend URL (no trailing slash).</p>
-                  <p><strong>2. Vercel</strong> — Deployments → Redeploy.</p>
-                  <p><strong>3. Render</strong> — Environment. Set <code className="bg-background px-1 rounded border border-border">CORS_ORIGIN</code> and <code className="bg-background px-1 rounded border border-border">COOKIE_DOMAIN</code> to your frontend URL.</p>
-                  <p className="text-muted">If your app uses a different URL, set CORS_ORIGIN and COOKIE_DOMAIN to match.</p>
+                  <p className="font-semibold text-foreground">Fix in order:</p>
+                  <p><strong>1. Copy this page’s URL</strong> from the browser address bar (e.g. <code className="bg-background px-1 rounded border border-border break-all">https://your-app.vercel.app</code>). No path, no trailing slash.</p>
+                  <p><strong>2. Render</strong> → your service → <strong>Environment</strong>. Add or edit:</p>
+                  <ul className="list-disc list-inside ml-2 space-y-1 text-muted">
+                    <li><code className="bg-background px-1 rounded border border-border">CORS_ORIGIN</code> = that full URL (e.g. <code className="break-all">https://your-app.vercel.app</code>)</li>
+                    <li><code className="bg-background px-1 rounded border border-border">COOKIE_DOMAIN</code> = only the domain (e.g. <code>your-app.vercel.app</code>, no <code>https://</code>)</li>
+                  </ul>
+                  <p><strong>3. Save</strong> on Render (service will restart). Wait ~1 min, then click Retry below.</p>
+                  <p className="text-muted text-xs">If Vercel URL was wrong: Vercel → Settings → Environment Variables → <code>NEXT_PUBLIC_API_BASE_URL</code> = <code className="break-all">{config.apiBaseUrl}</code>, then Deployments → Redeploy.</p>
                 </div>
                 <p className="mt-3 text-xs text-muted">Render free tier may take 30–60s to wake — click Retry after saving.</p>
                 <Button type="button" onClick={() => { setError(null); setLoading(true); fetchSubjects(); }} className="mt-4">

@@ -104,7 +104,25 @@ export default function ChatPage() {
 
         <div className="flex-1 min-h-0 flex flex-col rounded border border-border bg-card overflow-hidden">
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.length === 0 && (
+            {messages.length === 0 && tokenConfigured === false && (
+              <div className="rounded border border-border bg-muted/30 p-4 text-sm text-foreground">
+                <p className="font-medium mb-2">Ask AI is optional — set up a token to enable it</p>
+                <p className="text-muted text-xs mb-3">
+                  Get a free token at{" "}
+                  <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer" className="text-accent underline">
+                    Hugging Face → Settings → Access Tokens
+                  </a>
+                  {" "}(fine-grained, &quot;Make calls to Inference Providers&quot;). Then set <code className="bg-card border border-border px-1 rounded">HUGGINGFACE_TOKEN</code> in your backend and restart.
+                </p>
+                <ol className="list-decimal list-inside space-y-1 text-muted text-xs">
+                  <li>Create a <strong>fine-grained</strong> token with permission &quot;Make calls to Inference Providers&quot;. Copy the token.</li>
+                  <li>Optional: enable free tier at <a href="https://huggingface.co/settings/inference-providers" target="_blank" rel="noopener noreferrer" className="underline">Inference Providers</a>.</li>
+                  <li><strong>Local:</strong> In the <code className="bg-card border border-border px-1 rounded">backend</code> folder, edit <code className="bg-card border border-border px-1 rounded">.env</code> and set <code className="bg-card border border-border px-1 rounded">HUGGINGFACE_TOKEN=your_token</code>. Then run <code className="bg-card border border-border px-1 rounded">npm run dev</code>.</li>
+                  <li><strong>Production (Render):</strong> In Render dashboard → your backend service → <strong>Environment</strong>, add <code className="bg-card border border-border px-1 rounded">HUGGINGFACE_TOKEN</code> = your token. Save (Render will redeploy).</li>
+                </ol>
+              </div>
+            )}
+            {messages.length === 0 && tokenConfigured !== false && (
               <p className="text-sm text-muted text-center py-8">
                 Ask anything — study help, concepts, or general questions. Replies appear here.
               </p>
@@ -150,23 +168,23 @@ export default function ChatPage() {
                 {tokenSetButRejected
                   ? "Hugging Face rejected your token"
                   : isTokenSetup
-                    ? "Set up Ask AI (Hugging Face token)"
+                    ? "Ask AI isn't set up yet"
                     : isModelLoading
                       ? "Model is starting"
                       : "Something went wrong"}
               </p>
               <p className={`mb-2 ${isTokenSetup ? "text-sky-700 dark:text-sky-300" : "text-amber-700 dark:text-amber-300"}`}>
                 {tokenSetButRejected
-                  ? "Your token is set in .env but Hugging Face is rejecting it (expired or revoked). Create a new token below, replace HUGGINGFACE_TOKEN in backend .env, then restart the backend."
+                  ? "Your token is set but Hugging Face is rejecting it (expired or revoked). Create a new token, then update HUGGINGFACE_TOKEN in backend .env (local) or Render Environment (production) and restart or redeploy."
                   : errorText}
               </p>
               {isTokenSetup && (
                 <ol className="list-decimal list-inside space-y-1 text-muted text-xs mt-2">
                   <li>Go to <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer" className="text-accent underline">Hugging Face → Settings → Access Tokens</a>.</li>
-                  <li>Create a <strong>fine-grained</strong> token (not classic). Enable permission: <strong>“Make calls to Inference Providers”</strong>. Copy the token.</li>
-                  <li>Optional: open <a href="https://huggingface.co/settings/inference-providers" target="_blank" rel="noopener noreferrer" className="underline">Inference Providers</a> and ensure the free tier is enabled for your account.</li>
-                  <li>In the <code className="bg-card border border-border px-1 rounded">backend</code> folder, edit <code className="bg-card border border-border px-1 rounded">.env</code> and set <code className="bg-card border border-border px-1 rounded">HUGGINGFACE_TOKEN=your_token</code>.</li>
-                  <li>Restart the backend (<code className="bg-card border border-border px-1 rounded">npm run dev</code> in the backend folder).</li>
+                  <li>Create a <strong>fine-grained</strong> token with permission <strong>“Make calls to Inference Providers”</strong>. Copy the token.</li>
+                  <li>Optional: enable free tier at <a href="https://huggingface.co/settings/inference-providers" target="_blank" rel="noopener noreferrer" className="underline">Inference Providers</a>.</li>
+                  <li><strong>Local:</strong> In <code className="bg-card border border-border px-1 rounded">backend/.env</code> set <code className="bg-card border border-border px-1 rounded">HUGGINGFACE_TOKEN=your_token</code>, then <code className="bg-card border border-border px-1 rounded">npm run dev</code>.</li>
+                  <li><strong>Production (Render):</strong> Render dashboard → backend service → Environment → add <code className="bg-card border border-border px-1 rounded">HUGGINGFACE_TOKEN</code>. Save to redeploy.</li>
                 </ol>
               )}
               {isModelLoading && (

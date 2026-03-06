@@ -29,6 +29,9 @@ app.use("/api/progress", progressRoutes);
 app.use("/api/run", runRoutes);
 app.use("/api/ai", aiRoutes);
 
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
 app.use(errorHandler);
 
 export default app;

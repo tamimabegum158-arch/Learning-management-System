@@ -58,8 +58,8 @@ Optional (for Free AI and Online Compiler):
 3. If you did **not** set a Release Command, open the **Shell** tab for the service and run:  
    `npx prisma migrate deploy`  
    then exit the shell.
-4. Copy the backend URL from the top of the page (e.g. `https://lms-backend.onrender.com`). You need this for the frontend.
-5. Check: open `https://your-backend-url.onrender.com/api/health` in the browser. You should see a healthy JSON response.
+4. Copy the backend URL from the top of the page (e.g. `https://lms-backend-xxxx.onrender.com`). You need this for the frontend.
+5. Check: open that URL + `/api/health` in the browser (e.g. `https://lms-backend-xxxx.onrender.com/api/health`). You should see a healthy JSON response.
 
 ---
 

@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
+const raw = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
+const API_BASE_URL = typeof raw === "string" ? raw.replace(/\/+$/, "") : "http://localhost:4000";
 
 export const config = {
   apiBaseUrl: API_BASE_URL,
