@@ -26,9 +26,12 @@ export default function LoginPage() {
       await login(trimmedEmail, password);
       router.push("/");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Login failed";
+      let msg = err instanceof Error ? err.message : "Login failed";
+      if (/<!DOCTYPE|is not valid JSON|Unexpected token|JSON at position/i.test(msg)) {
+        msg = "Backend returned a page instead of JSON. Set CORS_ORIGIN on Render to https://learning-management-system-inky.vercel.app and ensure the backend is running.";
+      }
+      if (msg === "Failed to fetch") msg = "Cannot reach the server. Check CORS_ORIGIN on Render (set to your Vercel URL: https://learning-management-system-inky.vercel.app).";
       setError(msg);
-      if (msg === "Failed to fetch") setError("Cannot reach the server. Set NEXT_PUBLIC_API_BASE_URL in Vercel to https://learning-management-system-rg7m.onrender.com and redeploy. Set CORS_ORIGIN on Render to this site's URL.");
     } finally {
       setLoading(false);
     }
