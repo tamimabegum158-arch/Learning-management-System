@@ -2,16 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Minimalist theme – silent light accent (no blue, not dark). */
+/*
+ * Theme – light chocolate accent for buttons and links (warm, not dark).
+ */
 :root {
   --background: #fafafa;
   --foreground: #262626;
   --muted: #737373;
   --border: #e5e5e5;
   --card: #ffffff;
-  --accent: #e2e8f0;
-  --accent-hover: #cbd5e1;
-  --accent-foreground: #334155;
+  --accent: #c4a77d;
+  --accent-hover: #b8956a;
+  --accent-foreground: #1c1917;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,9 +23,9 @@
     --muted: #a3a3a3;
     --border: #404040;
     --card: #262626;
-    --accent: #475569;
-    --accent-hover: #64748b;
-    --accent-foreground: #f1f5f9;
+    --accent: #d4b896;
+    --accent-hover: #e5d0b3;
+    --accent-foreground: #1c1917;
   }
 }
 
