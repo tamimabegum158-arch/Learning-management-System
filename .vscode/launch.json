@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch AI LMS Backend (test profile)",
+      "request": "launch",
+      "mainClass": "com.ailms.AiLmsApplication",
+      "projectName": "backend",
+      "cwd": "${workspaceFolder}/backend",
+      "vmArgs": "-Dspring.profiles.active=test -Dserver.port=8080",
+      "env": {
+        "SPRING_PROFILES_ACTIVE": "test"
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}
