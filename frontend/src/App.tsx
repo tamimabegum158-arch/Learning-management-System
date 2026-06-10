@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import CoursesPage from './pages/CoursesPage'
 import AuthPage from './pages/AuthPage'
+import DashboardPage from './pages/DashboardPage'
 import NotFound from './pages/NotFound'
 import './styles.css'
 
@@ -43,6 +44,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home status={status} />} />
             <Route path="/courses" element={<CoursesPage setStatus={setStatus} />} />
+            <Route path="/profile" element={isAuthenticated ? <DashboardPage /> : <AuthPage setAuth={setAuth} setStatus={setStatus} />} />
             <Route path="/auth" element={<AuthPage setAuth={setAuth} setStatus={setStatus} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

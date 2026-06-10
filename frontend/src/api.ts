@@ -38,3 +38,11 @@ export function registerStudent(request: { fullName: string; email: string; pass
 export function registerInstructor(request: { fullName: string; email: string; password: string }) {
   return api.post<ApiResponse<JwtAuthResponse>>('/v1/auth/register/instructor', request)
 }
+
+export function fetchEnrollments() {
+  return api.get<ApiResponse<unknown>>('/v1/enrollments')
+}
+
+export function fetchUserProfile() {
+  return api.get<ApiResponse<unknown>>('/v1/users/profile')
+}

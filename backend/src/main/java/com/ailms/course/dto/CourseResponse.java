@@ -15,6 +15,9 @@ public record CourseResponse(
         Long instructorId,
         String instructorName,
         boolean active,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        Integer totalEnrollments,
+        Double averageRating,
+        Long reviewCount
 ) {
 }

@@ -111,7 +111,10 @@ public class CourseServiceImpl implements CourseService {
                 course.getInstructor().getId(),
                 course.getInstructor().getFullName(),
                 course.isActive(),
-                course.getCreatedAt()
+                course.getCreatedAt(),
+                0,  // totalEnrollments
+                null,  // averageRating
+                0L  // reviewCount
         );
     }
 }

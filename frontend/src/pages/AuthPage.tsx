@@ -13,11 +13,15 @@ export default function AuthPage({ setAuth, setStatus }: AuthPageProps) {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [successMessage, setSuccessMessage] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const submitLabel = mode === 'login' ? 'Sign In' : `Register as ${role}`
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setSuccessMessage('')
+    setErrorMessage('')
     setStatus(mode === 'login' ? 'Signing in...' : `Registering as ${role}...`)
 
     try {
@@ -40,9 +44,22 @@ export default function AuthPage({ setAuth, setStatus }: AuthPageProps) {
 
       saveAuth(authUser)
       setAuth(authUser)
-      setStatus(`Signed in as ${authUser.email}`)
+      
+      // Set success message
+      const successMsg = mode === 'login' 
+        ? 'Login successful! Welcome back!' 
+        : `Registration successful! You are now registered as a ${role}.`
+      
+      setSuccessMessage(successMsg)
+      setStatus(successMsg)
+      
+      // Redirect to profile after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = '/profile'
+      }, 1500)
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error'
+      setErrorMessage(`Authentication failed: ${message}`)
       setStatus(`Authentication failed: ${message}`)
     }
   }
@@ -61,6 +78,22 @@ export default function AuthPage({ setAuth, setStatus }: AuthPageProps) {
             <button className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')} type="button">Login</button>
             <button className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')} type="button">Register</button>
           </div>
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="auth-success-message">
+              <span className="success-icon">✓</span>
+              <span>{successMessage}</span>
+            </div>
+          )}
+
+          {/* Error Message */}
+          {errorMessage && (
+            <div className="auth-error-message">
+              <span className="error-icon">✗</span>
+              <span>{errorMessage}</span>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit}>
             {mode === 'register' && (

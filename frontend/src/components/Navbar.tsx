@@ -10,6 +10,7 @@ export default function Navbar({ onLogout, isAuthenticated }: NavbarProps) {
     <nav className="site-nav">
       <NavLink to="/" end>Home</NavLink>
       <NavLink to="/courses">Courses</NavLink>
+      {isAuthenticated && <NavLink to="/profile">Profile</NavLink>}
       <NavLink to="/auth">Account</NavLink>
       {isAuthenticated && onLogout && (
         <button className="logout-button" onClick={onLogout}>Logout</button>

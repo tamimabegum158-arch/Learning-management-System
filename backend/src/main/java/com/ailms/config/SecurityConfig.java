@@ -44,11 +44,11 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
                 .authenticationProvider(authenticationProvider)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v1/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/v1/webhooks/payments/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/health").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/courses/**").permitAll()
-                        .requestMatchers("/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/v1/auth/**", "/api/v1/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/v1/webhooks/payments/**", "/api/v1/webhooks/payments/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/health", "/api/health").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/courses/**", "/api/v1/courses/**").permitAll()
+                        .requestMatchers("/v1/admin/**", "/api/v1/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
